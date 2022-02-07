@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,5 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [TaskController::class, 'index'])->name('index');
+Route::get('/', function() {
+    return redirect('/login');
+});
+
 Route::resource('task', TaskController::class);
+
+Auth::routes();
+

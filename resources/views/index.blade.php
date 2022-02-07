@@ -1,6 +1,6 @@
-@extends('layout')
+@extends('layouts.app')
 
-@section('main-content')
+@section('content')
 
 <div>
     <div class="float-start">

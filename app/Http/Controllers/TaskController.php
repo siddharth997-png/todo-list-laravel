@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class TaskController extends Controller
 {
@@ -12,8 +13,14 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index() {
-        $tasks = Task::orderBy('id','desc')->get();
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        $tasks = $user->tasks->sortByDesc('id');
         $data = compact('tasks');
         return view('index')->with($data);
     }
@@ -37,14 +44,13 @@ class TaskController extends Controller
         $request->validate([
             'title' => 'required'
         ]);
-        echo '<pre>';
-        print_r($request->all());
         $task = new Task;
         $task->title = $request->title;
         $task->description = $request->description;
         $task->status = $request->status;
+        $task->user_id = auth()->user()->id;
         $task->save();
-        return redirect('/');
+        return redirect('/task');
     }
 
     /**
@@ -67,8 +73,13 @@ class TaskController extends Controller
     public function edit($id) {
         $task = Task::find($id);
         if(is_null($task)) {
-            return redirect('/');
+            return redirect('/task');
         }
+        $user_id = auth()->user()->id;
+        if($user_id !== $task->user_id) {
+            return redirect('/task');
+        }
+
         return view('edit')->with(compact('task'));
     }
 
@@ -83,7 +94,7 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         if(is_null($task)) {
-            return redirect('/');
+            return redirect('/task');
         }
         $request->validate([
             'title' => 'required'
@@ -92,7 +103,7 @@ class TaskController extends Controller
         $task->description = $request->description;
         $task->status = $request->status;
         $task->save();
-        return redirect('/');
+        return redirect('/task');
 
     }
 
@@ -105,9 +116,13 @@ class TaskController extends Controller
     public function destroy($id) {
         $task = Task::find($id);
         if(is_null($task)) {
-            return redirect('/');
+            return redirect('/task');
+        }
+        $user_id = auth()->user()->id;
+        if($user_id !== $task->user_id) {
+            return redirect('/task');
         }
         $task->delete();
-        return redirect('/');
+        return redirect('/task');
     }
 }

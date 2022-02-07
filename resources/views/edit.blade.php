@@ -1,12 +1,12 @@
-@extends('layout')
+@extends('layouts.app')
 
-@section('main-content')
+@section('content')
 <div>
     <div class="float-start">
         <h4 class="pb-3">Edit Task</h4>
     </div>
     <div class="float-end">
-        <a href="{{ route('index') }}" class="btn btn-info">
+        <a href="{{ route('task.index') }}" class="btn btn-info">
             <i class="fa fa-arrow-left"></i> All Task
         </a>
     </div>
@@ -41,7 +41,7 @@
             </select>
         </div>
 
-        <a href="{{ route('index') }}" class="btn btn-secondary mr-2"><i class="fa fa-arrow-left"></i> Cancel</a>
+        <a href="{{ route('task.index') }}" class="btn btn-secondary mr-2"><i class="fa fa-arrow-left"></i> Cancel</a>
 
         <button type="submit" class="btn btn-success">
             <i class="fa fa-check"></i>
