@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskApiController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Public Routes
+Route::get('/allTasks', [TaskApiController::class, 'fetchAllTasks']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+
+//Protected Routes
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/task', [TaskApiController::class, 'index']);
+    Route::post('/task', [TaskApiController::class, 'store']);
+    Route::get('/task/{task_id}', [TaskApiController::class, 'show']);
+    Route::put('/task/{task_id}', [TaskApiController::class, 'update']);
+    Route::delete('/task/{task_id}', [TaskApiController::class, 'destroy']);
+    Route::get('/task/search/{title}', [TaskApiController::class, 'search']);
+
+    Route::post('/logout', [AuthController::class, 'logout']);
 });

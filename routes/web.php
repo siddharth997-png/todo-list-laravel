@@ -19,6 +19,7 @@ Route::get('/', function() {
 });
 
 Route::resource('task', TaskController::class);
+Route::get('/search', [TaskController::class, 'search']);
 
 Auth::routes();
 

@@ -59,9 +59,8 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show($id) {
+
     }
 
     /**
@@ -124,5 +123,16 @@ class TaskController extends Controller
         }
         $task->delete();
         return redirect('/task');
+    }
+
+    public function search() {
+        $title = $_GET['title'];
+        $user_id = auth()->user()->id;
+        $tasks = Task::where([
+            ['user_id', '=', $user_id],
+            ['title','LIKE','%'.$title.'%']
+        ])->get();
+        $data = compact('tasks');
+        return view('index')->with($data);
     }
 }

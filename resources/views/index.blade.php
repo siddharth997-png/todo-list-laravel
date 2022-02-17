@@ -2,17 +2,20 @@
 
 @section('content')
 
-<div>
-    <div class="float-start">
-        <h4 class="pb-3">My Tasks</h4>
-    </div>
-    <div class="float-end">
-        <a href="{{route('task.create')}}" class="btn btn-success">
-           <i class="fa fa-plus-circle"></i> Create Task
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <h4 class="pb-3">My Tasks</h4>
+    <div class="d-flex flex-row">
+        <a href="{{route('task.create')}}" class="btn btn-success mx-4">
+            <i class="fa fa-plus-circle"></i> Create Task
         </a>
+        <form class="form-inline d-flex flex-row" method="GET" action="search">
+            <input class="form-control mr-sm-2 mx-1" type="search" placeholder="Search Title" aria-label="Search" name="title">
+            <button class="btn btn-outline-success my-2 my-sm-0 mx-1" type="submit">Search</button>
+        </form>
     </div>
-    <div class="clearfix"></div>
-</div>
+
+
+  </nav>
 
 @foreach ($tasks as $task)
     <div class="card mt-3">
