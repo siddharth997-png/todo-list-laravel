@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/task/{task_id}', [TaskApiController::class, 'show']);
     Route::put('/task/{task_id}', [TaskApiController::class, 'update']);
     Route::delete('/task/{task_id}', [TaskApiController::class, 'destroy']);
-    Route::get('/task/search/{title}', [TaskApiController::class, 'search']);
+    Route::get('/search', [TaskApiController::class, 'search']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });
